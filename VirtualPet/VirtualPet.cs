@@ -10,7 +10,7 @@ namespace VirtualPet
     {
         //fields
         private int energy;
-        private int hunger;
+        private int nutrition;
         private int hydration;
         private int bowels;
         private int preyDrive;
@@ -30,13 +30,13 @@ namespace VirtualPet
             set { this.energy = value; }
         }
         //Updates Hunger Level
-        public int Hunger
+        public int Nutrition
         {
-            get { return this.hunger; }
-            set { this.hunger = value; }
+            get { return this.nutrition; }
+            set { this.nutrition = value; }
         }
         //Updates Thirst Level
-        public int Thirst
+        public int Hydration
         {
             get { return this.hydration; }
             set { this.hydration = value; }
@@ -59,7 +59,7 @@ namespace VirtualPet
         {
             this.name = "Loki";
             this.energy = 50;
-            this.hunger = 50;
+            this.nutrition = 50;
             this.hydration = 50;
             this.preyDrive = 50;
             this.bowels = 50;
@@ -70,7 +70,7 @@ namespace VirtualPet
         public void Feed()
         {
             Console.WriteLine("\n******\n"+"You fed " + name + ".");
-            hunger -= 15;
+            nutrition += 15;
             energy += 5;
             hydration -= 5;
             bowels += 7;
@@ -80,8 +80,8 @@ namespace VirtualPet
         public void Water()
         {
             Console.WriteLine("\n******\n" + "You watered " + name + ".");
-            hydration += 15;
-            hunger += 5;
+            hydration += 25;
+            nutrition -= 5;
             bowels += 7;
             preyDrive += 5;            
         }
@@ -91,29 +91,28 @@ namespace VirtualPet
             Console.WriteLine("\n******\n" + "You exercised " + name + ".");
             energy -= 20;
             preyDrive -= 10;
-            hunger += 10;
+            nutrition -= 10;
             hydration -= 15;
         }
         //Release Bowels
         public void Release()
         {
-            Console.WriteLine("\n******\n" + name + "marked territory.");
-            bowels -= 30;
-            preyDrive += 5;            
+            Console.WriteLine("\n******\n" + name + " marked territory.");
+            bowels -= 30;            
         }
         //Sleep
         public void Sleep()
         {
-            Console.WriteLine("\n******\n" + name + "slept.");
+            Console.WriteLine("\n******\n" + name + " slept.");
             energy += 20;
-            preyDrive += 10;
-            hunger += 5;
+            preyDrive += 5;
+            nutrition -= 5;
             hydration -= 10;
         }
         //Tick
         public void Tick()
         {
-            hunger += 5;
+            nutrition -= 5;
             hydration -= 5;
             energy += 3;
             preyDrive += 5;
@@ -121,13 +120,13 @@ namespace VirtualPet
         //Show info on console
         public void ShowInfo()
         {
-            Console.WriteLine("\nNEW STATUS:\n");
+            Console.WriteLine("\nSTATUS:\n");
             Console.WriteLine("\n"+name + " the Wolf");
-            Console.WriteLine("Energy: " + energy);
-            Console.WriteLine("Hunger: " + hunger);
-            Console.WriteLine("Hydrated: " + hydration);
-            Console.WriteLine("Bowels: " + bowels);
-            Console.WriteLine("Prey Drive: " + preyDrive+"\n");
+            Console.WriteLine("Energy: \t" + energy);
+            Console.WriteLine("Nutrition: \t" + nutrition);
+            Console.WriteLine("Hydration: \t" + hydration);
+            Console.WriteLine("Bowels: \t" + bowels);
+            Console.WriteLine("Prey Drive: \t" + preyDrive+"\n\n");
         }
     }
 }

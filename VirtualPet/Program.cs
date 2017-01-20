@@ -40,7 +40,7 @@ namespace VirtualPet
                 Console.WriteLine("6) Quit");
                 Console.WriteLine("7) Restart");
                 input = int.Parse(Console.ReadLine());
-                //checks for Restart
+                //checks for Restart, restarts if wanted
                 if (input==7)
                 {
                     Console.Clear();
@@ -73,25 +73,74 @@ namespace VirtualPet
                         wolf.Release();
                         break;
                 }
-                                
+                  
+                //Energy gets too high/low              
                 if (wolf.Energy >= 100)
                 {
-                    Console.WriteLine(wolf.Name + " just tore your house apart and is laughing at you.  " + wolf.Name + " wants to play.");
                     wolf.Energy = 100;
+                    Console.WriteLine("\n!!!ENERGY LEVEL=100!!!\n"+wolf.Name + " just tore your house apart and is laughing at you.  " + wolf.Name + " wants to play.");                    
                 }
-                if(wolf.Hunger>=100)
+                if (wolf.Energy <= 0)
                 {
-                    Console.WriteLine("\n"+wolf.Name + " got hungry and ate the closest piece of meat, which was you.  Sweet dreams Wolf chow...");
-                    wolf.Hunger = 0;
-                    goto PersonalDeath;
-                }                                
-
+                    wolf.Energy = 0;
+                    Console.WriteLine("\n!!!ENERGY LEVEL=0!!!\n" + wolf.Name + " died of exhaustion.  " + wolf.Name + " needed to rest.");
+                    goto Death;
+                }
+                //Wolf gets hungry
+                if (wolf.Nutrition<=0)
+                {
+                    wolf.Nutrition = 100;
+                    Console.WriteLine("\n!!!HUNGER LEVEL=100!!!\nYou starved "+wolf.Name + "! So "+wolf.Name+" got hungry and ate the closest piece of meat, which was you.  Sweet dreams Wolf chow...");
+                    goto Death;
+                }
+                if (wolf.Nutrition >=100)
+                {
+                    wolf.Nutrition = 0;
+                    Console.WriteLine("\n!!!HUNGER LEVEL=0!!!\n" + wolf.Name + " is well fed and getting fat...");                    
+                }
+                //Wolf gets thirsty
+                if(wolf.Hydration<=0)
+                {
+                    wolf.Hydration = 0;
+                    Console.WriteLine("\n!!!HYDRATION LEVEL=0!!!\n" + wolf.Name + " got thirsty and drank all your blood to survive.");
+                    goto Death;
+                }
+                if (wolf.Hydration >= 100)
+                {
+                    wolf.Hydration = 100;
+                    Console.WriteLine("\n!!!HYDRATION LEVEL=100!!!\n" + wolf.Name + " is hydrated.");
+                }
+                //Wolf goes primal
+                if (wolf.PreyDrive>=100)
+                {
+                    wolf.PreyDrive = 100;
+                    Console.WriteLine("\n!!!PREY DRIVE LEVEL=100!!!\n" + wolf.Name + " got primal and you became its prey.  Wolves do wolve things...");
+                    goto Death;
+                }
+                if (wolf.PreyDrive <= 0)
+                {
+                    wolf.PreyDrive = 100;
+                    Console.WriteLine("\n!!!PREY DRIVE LEVEL=0!!!\n" + wolf.Name + " was domesticated by you Wolf Whisperer.  For now...");
+                }
+                //Wolf drops a load
+                if (wolf.Bowels>=100)
+                {
+                    wolf.Bowels = 50;
+                    Console.WriteLine("\n!!!Bowels=100!!!\n" + wolf.Name + " marked their territory all over your living quarters...");                    
+                }
+                if(wolf.Bowels<=0)
+                {
+                    wolf.Bowels = 0;
+                }
+                Console.WriteLine("\nType any key to continue.");
+                Console.ReadKey();
             }
             while (input != 6);
+            Environment.Exit(0);
 
-            PersonalDeath:
+            Death:
             {
-                Console.WriteLine("\n" + "You were not successful owning this wolf.  It ate you.  Type Y and enter to try again, type anything else to exit.");
+                Console.WriteLine("\n" + "You were not successful owning this wolf.  \nType Y and press enter to try again. \nType anything else to exit.");
                 if(Console.ReadLine().ToLower()=="y")
                 {
                     Console.Clear();
