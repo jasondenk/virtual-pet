@@ -100,7 +100,7 @@ namespace VirtualPet
         //Show info on console
         public void ShowInfo()
         {
-            Console.WriteLine(name + "the Wolf");
+            Console.WriteLine(name + " the Wolf");
             Console.WriteLine("Energy: " + energy);
             Console.WriteLine("Hunger: " + hunger);
             Console.WriteLine("Thirst: " + thirst);
