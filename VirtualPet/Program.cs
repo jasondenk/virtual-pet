@@ -12,6 +12,7 @@ namespace VirtualPet
         {
             //variables
             int input;
+            int i = 0;
             
             //instatiate
             VirtualPet wolf = new VirtualPet();
@@ -134,8 +135,29 @@ namespace VirtualPet
                 }
                 Console.WriteLine("\nType any key to continue.");
                 Console.ReadKey();
+                i++;
             }
-            while (input != 6);
+            while (input != 6 & i<100);
+            
+            //after 100 repitions, Congratulate wolf owner and quit or restart.
+            if (i>=100)
+            {
+                Console.WriteLine("Wolf master, you have demonstrated the ability to be a great leader.  The wild is calling you.");
+                Console.WriteLine("Type 1 and enter to restart or type anything else + enter to leave civilization with " + wolf.Name + ".");
+                if(Console.ReadLine()=="1")
+                {
+                    Console.Clear();
+                    Main(args);
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    Console.WriteLine("\t\t\tOWOOOOOOOOOO!");
+                    Console.WriteLine("                     .\n                    / V\n                  / `  /\n                 <<   |\n                 /    |\n               /      |\n             /        |\n           /    \\  \\ /\n          (      ) | |\n  ________ | _ / _ | |\n< __________\\______)\\__)");
+                    Console.WriteLine("\nRUN FREE WILDTHING! \n\n Type any key to exit.");
+                    Console.ReadKey();
+                }
+            }
             Environment.Exit(0);
 
             Death:
