@@ -129,7 +129,7 @@ namespace VirtualPet
                 if (wolf.Bowels>=100)
                 {
                     wolf.Bowels = 50;
-                    Console.WriteLine("\n!!!Bowels=100!!!\n" + wolf.Name + " marked territory all over your living quarters...");                    
+                    Console.WriteLine("\n!!!Bowels=100!!!\n     (   )\n  ()(\n   ) _)\n    ( \\_\n  _(_\\ \\)__\n (____\\___)) " + wolf.Name + " marked territory all over your living quarters...");                    
                 }
                 if(wolf.Bowels<=0)
                 {
