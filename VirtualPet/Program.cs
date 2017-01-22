@@ -33,7 +33,7 @@ namespace VirtualPet
                 wolf.Tick();
                 //show status
                 wolf.ShowInfo();
-                Console.WriteLine("What do you want to do?");
+                Console.WriteLine("What do you want to do?   (Type number and press enter)");
                 Console.WriteLine("1) Feed " +wolf.Name);
                 Console.WriteLine("2) Water " + wolf.Name+"(gives water to "+wolf.Name+").");
                 Console.WriteLine("3) Play with " + wolf.Name);
@@ -41,27 +41,22 @@ namespace VirtualPet
                 Console.WriteLine("5) Let " + wolf.Name + " outside to mark territory.");
                 Console.WriteLine("6) Quit");
                 Console.WriteLine("7) Restart");
-                string input = Console.ReadLine();
-                if (input == "")
-                {
-                    Console.WriteLine("\nPlease type a valid response.\n");
-                    goto Start;
-                }
-                inputInt = int.Parse(input);
+                string input = Console.ReadLine();                              
                 //checks for Restart, restarts if wanted
-                if (inputInt==7)
+                if (input=="7")
                 {
                     Console.Clear();
                     Main(args);
                     Environment.Exit(0);
                 }
                 //checks for valid input, repeats options if not valid
-                if (inputInt!=1&inputInt!=2 & inputInt !=3 & inputInt !=4 & inputInt !=5 & inputInt !=6)
+                if (input!="1"&input!="2" & input !="3" & input !="4" & input !="5" & input !="6")
                 {
                     Console.WriteLine("\nPlease type a valid response.\n");
                     goto Start;
-                }                
-                
+                }
+                //changes string input to integer
+                inputInt = int.Parse(input);
                 //update values based off of selection by performing methods
                 switch (inputInt)
                 {
@@ -150,7 +145,7 @@ namespace VirtualPet
             //after 20 repitions, Congratulate wolf owner and quit or restart.
             if (i>=20)
             {
-                Console.WriteLine("Wolf master, you have demonstrated the ability to be a great leader.  The wild\nis calling you.");
+                Console.WriteLine("\nWolf master, you have demonstrated the ability to be a great leader.  The wild\nis calling you.");
                 Console.WriteLine("Type 1 and enter to restart or type anything else + enter to leave civilization with " + wolf.Name + ".");
                 if(Console.ReadLine()=="1")
                 {
