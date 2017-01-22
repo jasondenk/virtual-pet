@@ -70,17 +70,17 @@ namespace VirtualPet
         public void Feed()
         {
             Console.WriteLine("\n******\n"+"You fed " + name + ".");
-            nutrition += 15;
+            nutrition += 35;
             energy += 5;
             hydration -= 5;
             bowels += 7;
-            preyDrive -= 10;
+            preyDrive -= 15;
         }
         //Give Water
         public void Water()
         {
             Console.WriteLine("\n******\n" + "You watered " + name + ".");
-            hydration += 25;
+            hydration += 35;
             nutrition -= 5;
             bowels += 7;
             preyDrive += 5;            
@@ -89,8 +89,8 @@ namespace VirtualPet
         public void Play()
         {
             Console.WriteLine("\n******\n" + "You exercised " + name + ".");
-            energy -= 20;
-            preyDrive -= 10;
+            energy -= 25;
+            preyDrive -= 15;
             nutrition -= 10;
             hydration -= 15;
         }
@@ -113,9 +113,22 @@ namespace VirtualPet
         public void Tick()
         {
             nutrition -= 5;
-            hydration -= 5;
-            energy += 3;
+            hydration -= 5;            
             preyDrive += 5;
+            Random rand = new Random();
+            int randomNum = rand.Next(100);
+            //Pet gets random energy burst
+            if (randomNum==66||randomNum==1||randomNum==99||randomNum==34||randomNum==6)
+            {
+                Console.WriteLine("\n!!!!!\nUh oh, " + Name + " got a burst of energy!!\n!!!!!\n");
+                energy += 100;
+            }
+            //Pet goes primal randomly
+            else if (randomNum==33||randomNum==35)
+            {
+                Console.WriteLine("\n!!!!!\nUh oh, " + Name + " went primal!!\n!!!!!\n");
+                preyDrive += 100;
+            }
         }
         //Show info on console
         public void ShowInfo()

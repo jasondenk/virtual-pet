@@ -11,7 +11,7 @@ namespace VirtualPet
         static void Main(string[] args)
         {
             //variables
-            int input;
+            int inputInt;
             int i = 0;
             
             //instatiate
@@ -23,13 +23,14 @@ namespace VirtualPet
             if (name!="")
             {
                 wolf.Name = name;
-            }         
-                        
+            }        
             
             //start owning pet
             do
             {
                 Start:;
+                //Every turn updates some values
+                wolf.Tick();
                 //show status
                 wolf.ShowInfo();
                 Console.WriteLine("What do you want to do?");
@@ -40,23 +41,29 @@ namespace VirtualPet
                 Console.WriteLine("5) Let " + wolf.Name + " outside to mark territory.");
                 Console.WriteLine("6) Quit");
                 Console.WriteLine("7) Restart");
-                input = int.Parse(Console.ReadLine());
+                string input = Console.ReadLine();
+                if (input == "")
+                {
+                    Console.WriteLine("\nPlease type a valid response.\n");
+                    goto Start;
+                }
+                inputInt = int.Parse(input);
                 //checks for Restart, restarts if wanted
-                if (input==7)
+                if (inputInt==7)
                 {
                     Console.Clear();
                     Main(args);
                     Environment.Exit(0);
                 }
-                //checks for valid input
-                if (input!=1&input!=2 & input !=3 & input !=4 & input !=5 & input !=6)
+                //checks for valid input, repeats options if not valid
+                if (inputInt!=1&inputInt!=2 & inputInt !=3 & inputInt !=4 & inputInt !=5 & inputInt !=6)
                 {
                     Console.WriteLine("\nPlease type a valid response.\n");
                     goto Start;
-                }
-                wolf.Tick();
-                //update values based off of action
-                switch (input)
+                }                
+                
+                //update values based off of selection by performing methods
+                switch (inputInt)
                 {
                     case 1:
                         wolf.Feed();
@@ -87,19 +94,19 @@ namespace VirtualPet
                     Console.WriteLine("\n!!!ENERGY LEVEL=0!!!\n" + wolf.Name + " died of exhaustion.  " + wolf.Name + " needed to rest.");
                     goto Death;
                 }
-                //Wolf gets hungry
+                //Wolf gets hungry or is overfed
                 if (wolf.Nutrition<=0)
                 {
-                    wolf.Nutrition = 100;
-                    Console.WriteLine("\n!!!HUNGER LEVEL=100!!!\nYou starved "+wolf.Name + "! So "+wolf.Name+" got hungry and ate the closest piece of meat, which was you.  Sweet dreams Wolf chow...");
+                    wolf.Nutrition = 0;
+                    Console.WriteLine("\n!!!NUTRITION LEVEL=0!!!\nYou starved "+wolf.Name + "! So "+wolf.Name+" got hungry and ate the closest piece of meat, which was you.  Sweet dreams Wolf chow...");
                     goto Death;
                 }
                 if (wolf.Nutrition >=100)
                 {
-                    wolf.Nutrition = 0;
-                    Console.WriteLine("\n!!!HUNGER LEVEL=0!!!\n" + wolf.Name + " is well fed and getting fat...");                    
+                    wolf.Nutrition = 100;
+                    Console.WriteLine("\n!!!NUTRITION LEVEL=100!!!\n" + wolf.Name + " is well fed and getting fat...");                    
                 }
-                //Wolf gets thirsty
+                //Wolf gets thirsty or is hydrated
                 if(wolf.Hydration<=0)
                 {
                     wolf.Hydration = 0;
@@ -127,22 +134,23 @@ namespace VirtualPet
                 if (wolf.Bowels>=100)
                 {
                     wolf.Bowels = 50;
-                    Console.WriteLine("\n!!!Bowels=100!!!\n" + wolf.Name + " marked their territory all over your living quarters...");                    
+                    Console.WriteLine("\n!!!Bowels=100!!!\n" + wolf.Name + " marked territory all over your living quarters...");                    
                 }
                 if(wolf.Bowels<=0)
                 {
                     wolf.Bowels = 0;
                 }
+                //if 6)exit gets selected, it will state this, exit while loop and then hit the Environment.Exit(0) after the next if statement
                 Console.WriteLine("\nType any key to continue.");
                 Console.ReadKey();
                 i++;
             }
-            while (input != 6 & i<100);
+            while (inputInt != 6 & i<20);
             
-            //after 100 repitions, Congratulate wolf owner and quit or restart.
-            if (i>=100)
+            //after 20 repitions, Congratulate wolf owner and quit or restart.
+            if (i>=20)
             {
-                Console.WriteLine("Wolf master, you have demonstrated the ability to be a great leader.  The wild is calling you.");
+                Console.WriteLine("Wolf master, you have demonstrated the ability to be a great leader.  The wild\nis calling you.");
                 Console.WriteLine("Type 1 and enter to restart or type anything else + enter to leave civilization with " + wolf.Name + ".");
                 if(Console.ReadLine()=="1")
                 {
@@ -152,14 +160,15 @@ namespace VirtualPet
                 }
                 else
                 {
-                    Console.WriteLine("\t\t\tOWOOOOOOOOOO!");
+                    //ASCII art with messages
+                    Console.WriteLine("\n\n\t\t\tOWOOOOOOOOOO!");
                     Console.WriteLine("                     .\n                    / V\n                  / `  /\n                 <<   |\n                 /    |\n               /      |\n             /        |\n           /    \\  \\ /\n          (      ) | |\n  ________ | _ / _ | |\n< __________\\______)\\__)");
                     Console.WriteLine("\nRUN FREE WILDTHING! \n\n Type any key to exit.");
                     Console.ReadKey();
                 }
             }
             Environment.Exit(0);
-
+            //If wolf dies or "eats" owner, goto Death
             Death:
             {
                 Console.WriteLine("\n" + "You were not successful owning this wolf.  \nType Y and press enter to try again. \nType anything else to exit.");
@@ -170,7 +179,6 @@ namespace VirtualPet
                     Environment.Exit(0);
                 }                
             }
-
             
         }
     }
