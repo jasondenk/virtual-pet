@@ -13,11 +13,12 @@ namespace VirtualPet
             //variables
             int inputInt;
             int i = 0;
+            Program main = new Program();
             
             //instatiate
             VirtualPet wolf = new VirtualPet();
 
-            //User sets some initial conditions
+            //User gives name or is given default name
             Console.WriteLine("Type the name of your wolf and press enter, to allow me to name your wolf, just press enter: ");
             string name = Console.ReadLine();
             if (name!="")
@@ -28,8 +29,9 @@ namespace VirtualPet
             //start owning pet
             do
             {
+                //goto Start if no valid input
                 Start:;
-                //Every turn updates some values
+                //Every turn updates some values, happens after every input, even if invalid input
                 wolf.Tick();
                 //show status
                 wolf.ShowInfo();
@@ -45,11 +47,9 @@ namespace VirtualPet
                 //checks for Restart, restarts if wanted
                 if (input=="7")
                 {
-                    Console.Clear();
-                    Main(args);
-                    Environment.Exit(0);
+                    main.Restart();
                 }
-                //checks for valid input, repeats options if not valid
+                //checks for valid input, repeats options if not valid by goto Start
                 if (input!="1"&input!="2" & input !="3" & input !="4" & input !="5" & input !="6")
                 {
                     Console.WriteLine("\nPlease type a valid response.\n");
@@ -76,65 +76,9 @@ namespace VirtualPet
                         wolf.Release();
                         break;
                 }
-                  
-                //Energy gets too high/low              
-                if (wolf.Energy >= 100)
-                {
-                    wolf.Energy = 100;
-                    Console.WriteLine("\n!!!ENERGY LEVEL=100!!!\n"+wolf.Name + " just tore your house apart and is laughing at you.  " + wolf.Name + " wants to play.");                    
-                }
-                if (wolf.Energy <= 0)
-                {
-                    wolf.Energy = 0;
-                    Console.WriteLine("\n!!!ENERGY LEVEL=0!!!\n" + wolf.Name + " died of exhaustion.  " + wolf.Name + " needed to rest.");
-                    goto Death;
-                }
-                //Wolf gets hungry or is overfed
-                if (wolf.Nutrition<=0)
-                {
-                    wolf.Nutrition = 0;
-                    Console.WriteLine("\n!!!NUTRITION LEVEL=0!!!\nYou starved "+wolf.Name + "! So "+wolf.Name+" got hungry and ate the closest piece of meat, which was you.  Sweet dreams Wolf chow...");
-                    goto Death;
-                }
-                if (wolf.Nutrition >=100)
-                {
-                    wolf.Nutrition = 100;
-                    Console.WriteLine("\n!!!NUTRITION LEVEL=100!!!\n" + wolf.Name + " is well fed and getting fat...");                    
-                }
-                //Wolf gets thirsty or is hydrated
-                if(wolf.Hydration<=0)
-                {
-                    wolf.Hydration = 0;
-                    Console.WriteLine("\n!!!HYDRATION LEVEL=0!!!\n" + wolf.Name + " got thirsty and drank all your blood to survive.");
-                    goto Death;
-                }
-                if (wolf.Hydration >= 100)
-                {
-                    wolf.Hydration = 100;
-                    Console.WriteLine("\n!!!HYDRATION LEVEL=100!!!\n" + wolf.Name + " is hydrated.");
-                }
-                //Wolf goes primal
-                if (wolf.PreyDrive>=100)
-                {
-                    wolf.PreyDrive = 100;
-                    Console.WriteLine("\n!!!PREY DRIVE LEVEL=100!!!\n" + wolf.Name + " got primal and you became its prey.  Wolves do wolve things...");
-                    goto Death;
-                }
-                if (wolf.PreyDrive <= 0)
-                {
-                    wolf.PreyDrive = 100;
-                    Console.WriteLine("\n!!!PREY DRIVE LEVEL=0!!!\n" + wolf.Name + " was domesticated by you Wolf Whisperer.  For now...");
-                }
-                //Wolf drops a load
-                if (wolf.Bowels>=100)
-                {
-                    wolf.Bowels = 50;
-                    Console.WriteLine("\n!!!Bowels=100!!!\n     (   )\n  ()(\n   ) _)\n    ( \\_\n  _(_\\ \\)__\n (____\\___)) " + wolf.Name + " marked territory all over your living quarters...");                    
-                }
-                if(wolf.Bowels<=0)
-                {
-                    wolf.Bowels = 0;
-                }
+                //checks levels after performing level updates
+                wolf.Levels();                  
+                
                 //if 6)exit gets selected, it will state this, exit while loop and then hit the Environment.Exit(0) after the next if statement
                 Console.WriteLine("\nType any key to continue.");
                 Console.ReadKey();
@@ -162,19 +106,25 @@ namespace VirtualPet
                     Console.ReadKey();
                 }
             }
-            Environment.Exit(0);
-            //If wolf dies or "eats" owner, goto Death
-            Death:
+            Environment.Exit(0);                                   
+        }
+        //If wolf dies or "eats" owner, this gets called.
+        public void Death()
+        {
+            Console.WriteLine("\n" + "You were not successful owning this wolf.  \nType Y and press enter to try again. \nType anything else to exit.");
+            if (Console.ReadLine().ToLower() == "y")
             {
-                Console.WriteLine("\n" + "You were not successful owning this wolf.  \nType Y and press enter to try again. \nType anything else to exit.");
-                if(Console.ReadLine().ToLower()=="y")
-                {
-                    Console.Clear();
-                    Main(args);
-                    Environment.Exit(0);
-                }                
+                Restart();
             }
-            
+            else { Environment.Exit(0); }
+        }
+        //Restarts Virtual Pet Game
+        public void Restart()
+        {
+            string[] args = { };
+            Console.Clear();
+            Main(args);
+            Environment.Exit(0);
         }
     }
 }
